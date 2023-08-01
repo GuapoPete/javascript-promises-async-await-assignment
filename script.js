@@ -42,6 +42,42 @@
 // 3. Uses fetch() at the modified endpoint
 // 4. Using the chosen approach (promise chaining or async/await), convert the response to json and return the data in its entirety
 
+// script.js
 
+// Function to render cat facts on the page
+function renderCatFacts(facts) {
+    const catFactsDiv = document.getElementById('cat-facts');
+    catFactsDiv.innerHTML = ''; // Clear previous content
+  
+    facts.forEach((fact) => {
+      const factElement = document.createElement('p');
+      factElement.textContent = fact.fact;
+      catFactsDiv.appendChild(factElement);
+    });
+  }
+  
+  // Function to handle button click and fetch cat facts
+  async function generateFacts() {
+    const factCountInput = document.getElementById('fact-count');
+    const factCount = parseInt(factCountInput.value);
+  
+    if (isNaN(factCount) || factCount < 1 || factCount > 10) {
+      alert('Please enter a number between 1 and 10.');
+      return;
+    }
+  
+    try {
+      const catFacts = await getCatFacts(factCount);
+      renderCatFacts(catFacts.data);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to fetch cat facts. Please try again later.');
+    }
+  }
+  
+  // Event listener for the 'Generate Facts' button click
+  const generateBtn = document.getElementById('generate-btn');
+  generateBtn.addEventListener('click', generateFacts);
+  
 
 //END OF ASSIGNMENT
